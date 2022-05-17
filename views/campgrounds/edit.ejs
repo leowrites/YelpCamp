@@ -1,0 +1,48 @@
+<% layout('./layout/boilerplate')%>
+    <h5>Edit Campground</h5>
+    <form class="validate-form" action="/campgrounds/<%= campground.id %>?_method=PATCH" method="POST"
+        enctype="multipart/form-data" novalidate>
+        <div class="mb-3">
+            <label class="form-label" for="title">Title</label>
+            <input class="form-control" type="text" id="title" name="campground[title]" value="<%= campground.title %>"
+                required>
+            <div class="invalid-feedback">
+                Please enter a title
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="price">Price</label>
+            <input class="form-control" type="text" id="price" name="campground[price]" value="<%= campground.price %>"
+                required>
+            <div class="valid-feedback">
+                Please entire a price
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="location">Location</label>
+            <input class="form-control" type="text" id="title" name="campground[location]"
+                value="<%= campground.location %>" required>
+            <div class="valid-feedback">
+                Please enter a location
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="description">Description</label>
+            <textarea class="form-control" type="textarea" id="description" style="height:100px" name="campground[description]" required>
+            </textarea>
+        </div>
+        <div class="mb-3">
+            <% campground.img.forEach(function(l, i){ %>
+                <img src="<%=l.url%>" alt="" class="img-thumbnail">
+                <div class="form-check-inline">
+                    <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=l.filename%>">
+                    <label for="image-<%=i%>">Delete?</label>
+                </div>
+            <% }) %>
+        </div>
+        <div class="mb-3">
+            <label for="formFileMultiple" class="form-label">Choose a file</label>
+            <input class="form-control" type="file" name="image" id="formFileMultiple" multiple>
+        </div>
+        <button class="btn btn-primary">Update Campground</button>
+    </form>
