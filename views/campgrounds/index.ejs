@@ -1,4 +1,7 @@
 <% layout('./layout/boilerplate')%>
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css' rel='stylesheet' />
+<div id="map" style="width: 100%; height: 350px"></div>
     <div class="container-sm">
         <div class="row">
             <div class="col-8">
@@ -13,11 +16,11 @@
         <% for (let campground of campgrounds) {%>
             <div class="card">
                 <div class="row">
-                    <% if (campground.img) { %>
                     <div class="col-md-4">
+                        <% if (campground.img.url) { %>
                         <img class="img-fluid" alt="" src="<%=campground.img[0].url%>"">
+                        <% } %>
                     </div>
-                    <% } %>
                 <div class=" col-md-8">
                         <div class="card-body">
                             <h5 class="card-title">
@@ -35,3 +38,8 @@
             </div>
             <% } %>
     </div>
+    <script>
+        const mapToken = '<%- process.env.MAPBOX_TOKEN%>'
+        const campgrounds = { features : <%- JSON.stringify(campgrounds)%> }
+    </script>
+    <script src="/javascripts/clusterMap.js"></script>

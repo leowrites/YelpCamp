@@ -1,5 +1,8 @@
 const Campground = require('../models/campground')
 const cloudinary = require('cloudinary').v2
+const mapboxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding')
+const mapboxToken = process.env.MAPBOX_TOKEN
+const geocoder = mapboxGeocoding({ accessToken: mapboxToken })
 
 module.exports.index = async (req, res, next) => {
     const campgrounds = await Campground.find({})
@@ -27,7 +30,12 @@ module.exports.viewCampground = async (req, res, next) => {
 module.exports.postCampground = async (req, res, next) => {
     // To prevent POST request directly (from postman for example)
     // if (!req.body.campground) throw new ExpressError('Invalid Campground Data', 400)
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.campground.location,
+        limit: 1
+    }).send()
     const campground = new Campground(req.body.campground)
+    campground.geometry = geoData.body.features[0].geometry
     campground.img = req.files.map(file => ({url: file.path, filename: file.filename}))
     campground.email = req.user.email
     campground.author = req.user._id
