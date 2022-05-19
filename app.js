@@ -118,6 +118,7 @@ app.use(
 app.use((req, res, next) => {
     // Information here is avaliable everywhere
     res.locals.currentUser = req.user
+    res.locals.currentUrl = req.originalUrl
     res.locals.success = req.flash('success')
     res.locals.error = req.flash('error')
     next()
