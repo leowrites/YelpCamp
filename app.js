@@ -21,7 +21,7 @@ const userRoutes = require('./routes/users')
 const helmet = require('helmet')
 const dbUrl = process.env.MONGODB_URL || 'mongodb://localhost:27017/yelp-camp'
 const MongoStore = require('connect-mongo')
-const secret = process.env.SECRET || 'kdlafbnvioawngrajw'
+const secret = process.env.SECRET || '3B1D657C8FF8469C4F99C7CB73611'
 
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
@@ -83,6 +83,7 @@ const styleSrcUrls = [
     "https://api.tiles.mapbox.com/",
     "https://fonts.googleapis.com/",
     "https://use.fontawesome.com/",
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css'
 ];
 const connectSrcUrls = [
     "https://api.mapbox.com/",
@@ -92,7 +93,27 @@ const connectSrcUrls = [
 ];
 const fontSrcUrls = []
 
-
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            childSrc: ["blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                "https://res.cloudinary.com/douqbebwk/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+                "https://images.unsplash.com",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
 
 app.use((req, res, next) => {
     // Information here is avaliable everywhere

@@ -1,6 +1,9 @@
 body {
-    height: 100vh;
     background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
     url("https://images.unsplash.com/photo-1504851149312-7a075b496cc7?ixlib=rb-1.2.1&raw_url=true&q=80&fm=jpg&crop=entropy&cs=tinysrgb&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2505");
-    background-size:contain
+    background-size: contain
+}
+
+main{
+    height: 100vh
 }
