@@ -15,7 +15,7 @@ router.route('/')
     .get(catchAsync(campgroundController.index))
     .post(isLoggedIn, upload.array('image'), validateCampground, catchAsync(campgroundController.postCampground))
 
-router.get('/new', isLoggedIn, catchAsync(campgroundController.newCampground))
+router.get('/new', isLoggedIn, campgroundController.newCampground)
 
 router.route('/:id')
     .get(catchAsync(campgroundController.viewCampground))

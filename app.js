@@ -22,6 +22,7 @@ const helmet = require('helmet')
 const dbUrl = process.env.MONGODB_URL || 'mongodb://localhost:27017/yelp-camp'
 const MongoStore = require('connect-mongo')
 const secret = process.env.SECRET || '3B1D657C8FF8469C4F99C7CB73611'
+const port = process.env.PORT || 3000
 
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
@@ -137,8 +138,6 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
-const port = process.env.PORT || 3000
-
 app.listen(port, () => {
     console.log(`Serving on port ${port}`)
 })
@@ -150,6 +149,7 @@ app.all('*', (req, res, next) => {
 // error handling functions
 // this will run whenever an error is encountered
 app.use((err, req, res, next) => {
+    console.log(err)
     const { status = 500 } = err
     if (!err.message) err.message = 'Oh No! Something went wrong'
     res.status(status).render('error', { err })
